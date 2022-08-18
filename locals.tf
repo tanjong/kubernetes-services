@@ -9,4 +9,5 @@ locals {
 
   buildregion      = var.buildregion
   subscriptionName = var.subscriptionName
+  acr              = "devlab-democluster-acr"
 }
