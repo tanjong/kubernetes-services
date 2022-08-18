@@ -1,5 +1,5 @@
 # Create a resource group
-resource "azurerm_resource_group" "devlab-democluster-rg" {
+resource "azurerm_resource_group" "devlab-democluster-acr-rg" {
   name     = local.acr
   location = local.buildregion
 }
