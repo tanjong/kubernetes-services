@@ -26,5 +26,4 @@ variable "subscriptionName" {
     condition     = var.subscriptionName == "dev_lab"
     error_message = "Please select dev_lab as your default subscription."
   }
-
 }
