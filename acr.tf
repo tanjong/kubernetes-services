@@ -8,7 +8,7 @@ resource "random_string" "random-name" {
   length  = 8
   upper   = false
   lower   = false
-  numeric  = true
+  numeric  = false
   special = false
 }
 
