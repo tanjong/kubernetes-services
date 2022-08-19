@@ -11,3 +11,5 @@ resource "azuread_service_principal_password" "devlab-aksdemo" {
   value                = random_password.devlab-aksdemo.result
 }
 
+
+
