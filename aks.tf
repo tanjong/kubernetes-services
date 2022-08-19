@@ -9,3 +9,4 @@ resource "azuread_service_principal" "devlab-aksdemo" {
 resource "azuread_service_principal_password" "devlab-aksdemo" {
   service_principal_id = azuread_service_principal.devlab-aksdemo.id
 }
+
