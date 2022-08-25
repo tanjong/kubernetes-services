@@ -23,7 +23,7 @@ resource "random_id" "log_analytics_workspace_name_suffix" {
   byte_length = 8
 }
 
-resource "azurerm_log_analytics_workspace" "devlab-analytics-wsp" {
+resource "azurerm_log_analytics_workspace" "devlab-clusterdemo-analytics-wsp" {
   # The WorkSpace name has to be unique across the whole of azure, not just the current subscription/tenant.
   name                = "${local.log_analytics_workspace_name}-${random_id.log_analytics_workspace_name_suffix.dec}"
   location            = local.log_analytics_workspace_location
@@ -33,10 +33,10 @@ resource "azurerm_log_analytics_workspace" "devlab-analytics-wsp" {
 
 resource "azurerm_log_analytics_solution" "devlab-demoAnalytics" {
   solution_name         = "ContainerInsights"
-  location              = azurerm_log_analytics_workspace.devlab-demoAnalytics.location
+  location              = azurerm_log_analytics_workspace.devlab-clusterdemo-analytics-wsp.location
   resource_group_name   = local.azurekubernetesrg
-  workspace_resource_id = azurerm_log_analytics_workspace.devlab-demoAnalytics.id
-  workspace_name        = azurerm_log_analytics_workspace.devlab-demoAnalytics.name
+  workspace_resource_id = azurerm_log_analytics_workspace.devlab-clusterdemo-analytics-wsp.id
+  workspace_name        = azurerm_log_analytics_workspace.devlab-clusterdemo-analytics-wsp.name
 
   plan {
     publisher = "Microsoft"
@@ -66,7 +66,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     admin_username = "ubuntu"
 
     ssh_key {
-      key_data = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCyBPnWDA5kVE4Ks2n7hoX/COwpEuxuf+0be5O7B77q+gsz6irJN181IJ+Acc1qiJMRLatnAH4e5qgj4/oRKGnVIEnVtQVjxMsm2/PdOZ2eE9K3/lNO49JRaf1jmuKNS8nis25dGzLZT44B+PhyVlIp4qH3PFXuD1bcd2Bo7CXdB+z97rBR4m89/pWtf7thrp7babFAKofPn1On3HNfaFC4DaeQmlRiVBHYiS53ze3QMSQ8TKrgo6vRbvOQ2sDmOrNRqBVC1T4IXbxgu9ZMEoUNmYCXZGOgujGdkSCe1rlbeFFsjRdCbMj4LC9t1/KwOft0ZEztuptc8ayteRfXHptkMd9DVfvnKf5OqmTqXLiIsFLlyqOXJ6Frlx+W+67x2Ev+JiHuW9mYT8V/MX1mlXeQsY8P0/NYT7yK7happQ41ajuE3SmZ73kwYgewEX699WV/C5FkgNF1jM2dFlWC2l9ezSnhyqQ6W7XzUbXtukFT0nMoQmrEfyuiWCoRAFK7Ay1EFB4QcvjrcXAMe9QtjjjsZFvkT/iKskBJkN3Rxep3pSLvKqFtJiqjUJXzLZoEq9gI7aRBoPz0dxjEbOjzoCeRiB/ZSd+F5vLonv13qXcgXdnZGQ85TFceT4wQ75SwaFHyUAhXZX4bxqBOdt4ZL1/lAduB+oyOCXLhoMzFhRBrGQ== lbena@LAPTOP-QB0DU4OG"
+      key_data = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDCQcELFVK5XRFC+G5oMOjdF8+vHNUwjR5Eo8QWUfUXtORmgG0M9pzp2RoiIsMjTTs1UnhVWZQMXYvQVCLTOyZymb5VQd16c6SZD/n2PD6qBExXcQ8w3esUrP82N/oqCZvjQ0dVBvYIq5Xiw/uXEiTsRfV09kbsS3X8uQmvIdub8E3QNFn8noQ/pdsHQqsYBLx3Wa3/Ox93IFwTNz6zUhllrJfp2eHs0oegsaxMqR03K5ETyBAlDYE70eQOujirVTi0jvjAcpoLiUAyBb/ngIh3rtcJKzFG99gUTBKr+4tH+ZkdQsNswSRtytvilE6qfc/VLXZUHCggZ+rsafxLmwbWnyraCPMnHHm1l+qsbBF0quMUo2Ne3aahQgjeEGeMAax8avlC3hzEeUtJnmNRHnE3w3eHA5wZxh4r0Dv7+yWC1vy6c4bLFJXg3Gmn1J56QUlp4jLaHh+0ZHPztkZZHhCMDy8nWsblvfBowLOtJxm8p5EBVyTsFMXBIUZM85MjvEHYuEFuKq28BLXowOY+9L902cZxRmoUTqtRz0bxYzXWtrl9be1BWnxjYGKzaw6diudU0EL8N6opB7q8uuWLQYGzUcTCp29e3/48j4d2oADq/HXb3/E7ii814gb7inLPqd3hdtsqPK4WsdrO4Dcsvoyk3nybdHoHjBH5SQs+lm6Fgw== njiet@LAPTOP-KAMNFCIU"
     }
   }
 
@@ -77,8 +77,8 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   }
 
   service_principal {
-    client_id     = azuread_service_principal.eliteclusterdemodev-SP.application_id
-    client_secret = azuread_service_principal_password.eliteclusterdemodev-SP.value
+    client_id     = azuread_service_principal.devlab-aksdemo.application_id
+    client_secret = azuread_service_principal_password.devlab-aksdemo.value
   }
 
     # addon_profile {
@@ -100,17 +100,17 @@ resource "azurerm_kubernetes_cluster" "k8s" {
  * NAMESPACE *
  *************/
 # Create Namespace
-resource "kubernetes_namespace" "eliteclusterdemo" {
+resource "kubernetes_namespace" "devlab-clusterdemo" {
   metadata {
     annotations = {
-      name = "eliteclusterdemo"
+      name = "devlab-clusterdemo"
     }
 
     labels = {
-      mylabel = "eliteclusterdemo"
+      mylabel = "devlab-clusterdemo"
     }
 
-    name = "eliteclusterdemo"
+    name = "devlab-clusterdemo"
   }
 }
 
