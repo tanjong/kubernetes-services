@@ -7,7 +7,11 @@ locals {
     ManagedWith = "terraform"
   }
 
-  buildregion      = var.buildregion
-  subscriptionName = var.subscriptionName
-  acr              = "devlab-democluster-acr"
+  buildregion                      = var.buildregion
+  subscriptionName                 = var.subscriptionName
+  acr                              = "devlab-democluster-acr"
+  azurekubernetesrg                = "devlab-clusterdemo"
+  cluster_name                     = "devlab-clusterdemo"
+  log_analytics_workspace_location = "eastus"
+  log_analytics_workspace_name     = "devlab-clusterdemo-analytics-wsp"
 }

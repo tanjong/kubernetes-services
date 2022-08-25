@@ -27,3 +27,19 @@ variable "subscriptionName" {
     error_message = "Please select dev_lab as your default subscription."
   }
 }
+
+/*****************
+ * AKS VARIABLES *
+ *****************/
+variable "agent_count" {
+  default = 5
+}
+
+variable "dns_prefix" {
+  default = "k8stest"
+}
+
+# refer https://azure.microsoft.com/pricing/details/monitor/ for log analytics pricing 
+variable "log_analytics_workspace_sku" {
+  default = "PerGB2018"
+}
