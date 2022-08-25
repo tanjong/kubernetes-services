@@ -2,16 +2,16 @@
  * SERVICE PRINCIPAL *
  *********************/
 
-resource "azuread_application" "devlab-aksdemo" {
-  display_name = "devlab-aksdemo"
+resource "azuread_application" "devlab-clusterdemo-app" {
+  display_name = "devlab-clusterdemo-app"
 }
 
-resource "azuread_service_principal" "devlab-aksdemo" {
-  application_id = azuread_application.devlab-aksdemo.application_id
+resource "azuread_service_principal" "devlab-clusterdemo-sp" {
+  application_id = azuread_application.devlab-clusterdemo-app.application_id
 }
 
-resource "azuread_service_principal_password" "devlab-aksdemo" {
-  service_principal_id = azuread_service_principal.devlab-aksdemo.id
+resource "azuread_service_principal_password" "devlab-clusterdemo-sp-pwd" {
+  service_principal_id = azuread_service_principal.devlab-clusterdemo-sp.id
 }
 
 
@@ -77,8 +77,8 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   }
 
   service_principal {
-    client_id     = azuread_service_principal.devlab-aksdemo.application_id
-    client_secret = azuread_service_principal_password.devlab-aksdemo.value
+    client_id     = azuread_service_principal.devlab-clusterdemo-sp.application_id
+    client_secret = azuread_service_principal_password.devlab-clusterdemo-sp-pwd.value
   }
 
     # addon_profile {
