@@ -12,6 +12,6 @@ locals {
   acr                              = "devlab-democluster-acr"
   azurekubernetesrg                = "devlab-clusterdemo"
   cluster_name                     = "devlab-clusterdemo"
-  log_analytics_workspace_location = "eastus"
+  log_analytics_workspace_location = "centralus"
   log_analytics_workspace_name     = "devlab-clusterdemo-analytics-wsp"
 }
