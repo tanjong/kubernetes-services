@@ -96,22 +96,22 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   tags = local.common_tags
 }
 
-/*************
- * NAMESPACE *
- *************/
-# Create Namespace
-resource "kubernetes_namespace" "devlab-clusterdemo" {
-  metadata {
-    annotations = {
-      name = "devlab-clusterdemo"
-    }
+# /*************
+#  * NAMESPACE *
+#  *************/
+# # Create Namespace
+# resource "kubernetes_namespace" "devlab-clusterdemo" {
+#   metadata {
+#     annotations = {
+#       name = "devlab-clusterdemo"
+#     }
 
-    labels = {
-      mylabel = "devlab-clusterdemo"
-    }
+#     labels = {
+#       mylabel = "devlab-clusterdemo"
+#     }
 
-    name = "devlab-clusterdemo"
-  }
-}
+#     name = "devlab-clusterdemo"
+#   }
+# }
 
 
